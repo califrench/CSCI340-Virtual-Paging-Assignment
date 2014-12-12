@@ -32,9 +32,9 @@ void pageit(Pentry q[MAXPROCESSES]) {
 		/* Is process active? */
 		if (q[proc].active) {
 			/* Dedicate all work to first active process*/
-			pc = q[proc].pc; 		        // program counter for process
-			page = pc / PAGESIZE; 		// page the program counter needs
-			/* Is page swaped-out? */
+			pc = q[proc].pc; // program counter for process
+			page = pc / PAGESIZE; // page the program counter needs
+			/* Is page swapped out? */
 			if (!q[proc].pages[page]) {
 				/* Try to swap in */
 				if (!pagein(proc, page)) {
@@ -42,9 +42,9 @@ void pageit(Pentry q[MAXPROCESSES]) {
 					for (oldpage = 0; oldpage < q[proc].npages; oldpage++) {
 						/* Make sure page isn't one I want */
 						if (oldpage != page) {
-							/* Try to swap-out */
+							/* Try to swap out */
 							if (pageout(proc, oldpage)) {
-								/* Break loop once swap-out starts*/
+								/* Break loop once swap out starts*/
 								break;
 							}
 						}
