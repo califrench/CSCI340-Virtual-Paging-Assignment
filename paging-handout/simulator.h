@@ -32,27 +32,38 @@ struct pentry {
 
 typedef struct pentry Pentry;
 
-/* int pagein (int process, int page)
+typedef enum {
+	INVALIDPAGE, STARTED, PAGINGIN, PAGINGOUT, STATEEXISTS, MEMORYFULL
+} page_operation_result;
+
+/* page_operation_result pagein (int process, int page)
  *   This pages in the requested page
  * Arguments:
- *   proc: process to work upon (0-19) 
+ *   proc: process upon which to do work (0-19)
  *   page: page to put in (0-19)
  * Returns:
- *   1 if pagein started, already running, or paged in
- *   0 if it can't start (e.g., swapping out) 
+ *   STARTED if the page in operation was successfully started
+ *   STATEEXISTS if the page is already paged in
+ *   PAGINGIN if another page in operation is already in progress for the specified page
+ *   PAGINGOUT if a page out operation is in progress for the specified page
+ *   INVALIDPAGE if the specified page or process is invalid
+ *   MEMORYFULL if there is no room in "physical" memory for the page
  */
-extern int pagein(int process, int page);
+extern page_operation_result pagein(int process, int page);
 
-/* int pageout(int process, int page)
+/* page_operation_result pageout(int process, int page)
  *   This pages out the requested page.
  * Arguments:
- *   proc: process to work upon (0-19)
+ *   proc: process upon which to do work (0-19)
  *   page: page to swap out. 
  * Returns: 
- *   1 if pageout started, already running, or paged out
- *   0 if can't start (e.g., swapping in)
+ *   STARTED if the page out operation was successfully started
+ *   STATEEXISTS if the page is already paged out
+ *   PAGINGOUT if another page out operation is already in progress for the specified page
+ *   PAGINGIN if page in operation is in progress for the specified page
+ *   INVALIDPAGE if the specified page or process is invalid
  */
-extern int pageout(int process, int page);
+extern page_operation_result pageout(int process, int page);
 
 /* void pageit(Pentry q[MAXPROCESSES])
  *   This is called by the simulator

@@ -428,42 +428,51 @@ static long process_step(int pnum, Process *q) {
 }
 
 /* public routine: swap one page out */
-int pageout(int process, int page) {
+page_operation_result pageout(int process, int page) {
 	if (process < 0 || process >= procs || !processes[process]
 			|| !processes[process]->active || page < 0
 			|| page >= processes[process]->npages)
-		return FALSE;
+		return INVALIDPAGE;
+	if (processes[process]->pages[page] < -PAGEWAIT)
+		return STATEEXISTS;
 	if (processes[process]->pages[page] < 0)
-		return TRUE; /* on its way out */
+		return PAGINGOUT; /* on its way out */
 	if (processes[process]->pages[page] > 0)
-		return FALSE; /* not available to swap out */
+		return PAGINGIN; /* not available to swap out */
 	sim_log(LOG_PAGE, "process=%2d page=%3d start pageout\n", process, page);
 	if (pages)
 		fprintf(pages, "%ld,%d,%d,%ld,%ld,going\n", sysclock, process, page,
 				processes[process]->pid, processes[process]->kind);
 	processes[process]->pages[page] = -1;
-	return TRUE;
+
+	return STARTED;
 }
 
 /* public routine: swap one page in */
-int pagein(int process, int page) {
+page_operation_result pagein(int process, int page) {
 	if (process < 0 || process >= procs || !processes[process]
 			|| !processes[process]->active || page < 0
-			|| page >= processes[process]->npages)
-		return FALSE;
-	if (processes[process]->pages[page] >= 0)
-		return TRUE; /* on its way */
+			|| page >= processes[process]->npages) {
+		printf("Invalid page during page in operation.\n");
+		return INVALIDPAGE;
+	}
+	if (processes[process]->pages[page] > 0)
+		return PAGINGIN; /* on its way */
+	if (processes[process]->pages[page] == 0)
+		return STATEEXISTS; /* already paged in */
 	if (pagesavail == 0)
-		return FALSE;
-	if (processes[process]->pages[page] >= -PAGEWAIT)
-		return FALSE; /* not yet out */
+		return MEMORYFULL;
+	if (processes[process]->pages[page] >= -PAGEWAIT) {
+		return PAGINGOUT; /* not yet out */
+	}
 	sim_log(LOG_PAGE, "process=%2d page=%3d start pagein\n", process, page);
 	if (pages)
 		fprintf(pages, "%ld,%d,%d,%ld,%ld,coming\n", sysclock, process, page,
 				processes[process]->pid, processes[process]->kind);
 	processes[process]->pages[page] = PAGEWAIT;
 	pagesavail--;
-	return TRUE;
+
+	return STARTED;
 }
 
 /*============
@@ -766,8 +775,8 @@ static void allage() {
 									i, j, processes[i]->pid,
 									processes[i]->kind);
 					}
-				} else if (processes[i]->pages[j]
-						< 0 && processes[i]->pages[j]>=-PAGEWAIT) {
+				} else if (processes[i]->pages[j]< 0
+						&& processes[i]->pages[j]>=-PAGEWAIT) {
 					processes[i]->pages[j]--;
 					if (processes[i]->pages[j] < -PAGEWAIT) {
 						sim_log(LOG_PAGE,
