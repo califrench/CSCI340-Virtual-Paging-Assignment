@@ -35,20 +35,20 @@ void pageit(Pentry q[MAXPROCESSES]) {
 	int pageoutret = -1;
 
 	/* All pages are swapped out on start */
-	if (q[testProc].pages[testPage]) {
+	if (q[testProc].states[testPage]) {
 		/* Page is swapped in */
 		if (!inTestRun) {
 			fprintf(stdout, "%4d - %d:%d is swapped in\n", tick, testProc,
 					testPage);
-			fprintf(stdout, "%4d - q[%d].pages[%d] = %ld\n", tick, testProc,
-					testPage, q[testProc].pages[testPage]);
+			fprintf(stdout, "%4d - q[%d].pages[%d] = %d\n", tick, testProc,
+					testPage, q[testProc].states[testPage]);
 
 			pageinret = pagein(testProc, testPage);
 			fprintf(stdout, "%4d - pagein(%d, %d) returns %d\n", tick, testProc,
 					testPage, pageinret);
 
-			fprintf(stdout, "%4d - q[%d].pages[%d] = %ld\n", tick, testProc,
-					testPage, q[testProc].pages[testPage]);
+			fprintf(stdout, "%4d - q[%d].pages[%d] = %d\n", tick, testProc,
+					testPage, q[testProc].states[testPage]);
 
 			pageoutret = pageout(testProc, testPage);
 			fprintf(stdout, "%4d - pageout(%d, %d) returns %d\n", tick,
@@ -60,23 +60,23 @@ void pageit(Pentry q[MAXPROCESSES]) {
 				iterations++;
 			}
 
-			fprintf(stdout, "%4d - q[%d].pages[%d] = %ld\n", tick, testProc,
-					testPage, q[testProc].pages[testPage]);
+			fprintf(stdout, "%4d - q[%d].pages[%d] = %d\n", tick, testProc,
+					testPage, q[testProc].states[testPage]);
 		}
 	} else {
 		/* Page is swapped out */
 		if (!outTestRun) {
 			fprintf(stdout, "%4d - %d:%d is swapped out\n", tick, testProc,
 					testPage);
-			fprintf(stdout, "%4d - q[%d].pages[%d] = %ld\n", tick, testProc,
-					testPage, q[testProc].pages[testPage]);
+			fprintf(stdout, "%4d - q[%d].pages[%d] = %d\n", tick, testProc,
+					testPage, q[testProc].states[testPage]);
 
 			pageoutret = pageout(testProc, testPage);
 			fprintf(stdout, "%4d - pageout(%d, %d) returns %d\n", tick,
 					testProc, testPage, pageoutret);
 
-			fprintf(stdout, "%4d - q[%d].pages[%d] = %ld\n", tick, testProc,
-					testPage, q[testProc].pages[testPage]);
+			fprintf(stdout, "%4d - q[%d].pages[%d] = %d\n", tick, testProc,
+					testPage, q[testProc].states[testPage]);
 
 			pageinret = pagein(testProc, testPage);
 			fprintf(stdout, "%4d - pagein(%d, %d) returns %d\n", tick, testProc,
@@ -90,8 +90,8 @@ void pageit(Pentry q[MAXPROCESSES]) {
 				fprintf(stdout, "%4d - pageout in progress...\n", tick);
 			}
 
-			fprintf(stdout, "%4d - q[%d].pages[%d] = %ld\n", tick, testProc,
-					testPage, q[testProc].pages[testPage]);
+			fprintf(stdout, "%4d - q[%d].pages[%d] = %d\n", tick, testProc,
+					testPage, q[testProc].states[testPage]);
 		}
 	}
 

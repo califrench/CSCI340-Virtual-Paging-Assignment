@@ -775,8 +775,8 @@ static void allage() {
 									i, j, processes[i]->pid,
 									processes[i]->kind);
 					}
-				} else if (processes[i]->pages[j]< 0
-						&& processes[i]->pages[j]>=-PAGEWAIT) {
+				} else if (processes[i]->pages[j] < 0
+						&& processes[i]->pages[j] >= -PAGEWAIT) {
 					processes[i]->pages[j]--;
 					if (processes[i]->pages[j] < -PAGEWAIT) {
 						sim_log(LOG_PAGE,
@@ -802,16 +802,25 @@ static void callyou() {
 			pentry[i].pc = processes[i]->pc;
 			pentry[i].npages = processes[i]->npages;
 			for (j = 0; j < processes[i]->npages; j++) {
-				pentry[i].pages[j] = (processes[i]->pages[j] == 0);
+				int state = processes[i]->pages[j];
+				if (state == 0)
+					pentry[i].states[j] = IN;
+				else if (state < -PAGEWAIT)
+					pentry[i].states[j] = OUT;
+				else if (state > 0)
+					pentry[i].states[j] = INCOMING;
+				else
+					/* -PAGEWAIT < state < 0 */
+					pentry[i].states[j] = OUTGOING;
 			}
 			for (; j < MAXPROCPAGES; j++)
-				pentry[i].pages[j] = FALSE;
+				pentry[i].states[j] = OUT;
 		} else {
 			pentry[i].active = FALSE;
 			pentry[i].pc = 0;
 			pentry[i].npages = 0;
 			for (j = 0; j < MAXPROCPAGES; j++)
-				pentry[i].pages[j] = FALSE;
+				pentry[i].states[j] = OUT;
 		}
 	}
 	pageit(pentry); /* call your routine */

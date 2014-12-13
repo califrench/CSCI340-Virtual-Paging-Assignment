@@ -13,7 +13,7 @@
  *      implmentation at performs very poorly, but
  *      provided a basic idea of how to user the
  *      simulator interface. Your job is to improve
- *      upon this implmentation.
+ *      upon this implementation.
  */
 
 #include <stdio.h>
@@ -39,7 +39,7 @@ void pageit(Pentry q[MAXPROCESSES]) {
 			page = pc / PAGESIZE; // page the program counter needs
 
 			/* Is page swapped out? */
-			if (!q[proc].pages[page]) {
+			if (q[proc].states[page] == OUT) {
 				/* Try to swap in */
 				page_operation_result pagein_result = pagein(proc, page);
 

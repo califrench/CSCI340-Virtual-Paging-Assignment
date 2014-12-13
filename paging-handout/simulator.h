@@ -23,11 +23,15 @@
 #define PHYSICALPAGES 100	/* number of available physical pages */ 
 #define MAXPC (MAXPROCPAGES*PAGESIZE) /* largest PC value */ 
 
+typedef enum {
+	OUT, INCOMING, IN, OUTGOING
+} page_state;
+
 struct pentry {
 	long active;
 	long pc;
 	long npages;
-	long pages[MAXPROCPAGES]; /* 0 if not allocated, 1 if allocated */
+	page_state states[MAXPROCPAGES];
 };
 
 typedef struct pentry Pentry;
