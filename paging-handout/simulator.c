@@ -307,7 +307,7 @@ static void process_unload(int pnum, Process *q) {
 			q->blocked[i] = 1;
 		}
 	q->active = FALSE;
-	sim_log(LOG_LOAD, "process %2d; pc %04d: unloaded\n", pnum, q->pc);
+	sim_log(LOG_LOAD, "process=%2d pc %04d: unloaded\n", pnum, q->pc);
 }
 
 /* do a branch if necessary */
@@ -322,10 +322,10 @@ static void process_dobranch(int pnum, Process *q, Branch *b, Bcontext *c) {
 		if (output)
 			fprintf(output, "%ld,%d,%ld,%ld,%ld,branch_to\n", sysclock, pnum,
 					q->pid, q->kind, q->pc);
-		sim_log(LOG_BRANCH, "process %2d; pc %04d: branch\n", pnum, q->pc);
+		sim_log(LOG_BRANCH, "process=%2d pc %04d: branch\n", pnum, q->pc);
 	} else {
 		q->pc++;
-		sim_log(LOG_BRANCH, "process %2d; pc %04d: no branch\n", pnum, q->pc);
+		sim_log(LOG_BRANCH, "process=%2d pc %04d: no branch\n", pnum, q->pc);
 	}
 	if (q->pc < 0 || q->pc >= q->program->size)
 		q->pc = 0; /* start over */
@@ -650,7 +650,7 @@ static void allinit() {
 		if (!empty()) {
 			processes[i] = dequeue();
 
-			sim_log(LOG_LOAD, "process %2d; pc %04d: loaded\n", i,
+			sim_log(LOG_LOAD, "process=%2d pc %04d: loaded\n", i,
 					processes[i]->pc);
 			if (output)
 				fprintf(output, "%ld,%ld,%ld,%ld,%ld,load\n", sysclock, i,
@@ -703,7 +703,7 @@ static void allstep() {
 			processes[i] = NULL;
 			if (!empty()) {
 				processes[i] = dequeue();
-				sim_log(LOG_LOAD, "process %2d; pc %04d: loaded\n", i,
+				sim_log(LOG_LOAD, "process=%2d pc %04d: loaded\n", i,
 						processes[i]->pc);
 				if (output)
 					fprintf(output, "%ld,%ld,%ld,%ld,%ld,load\n", sysclock, i,
