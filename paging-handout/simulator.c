@@ -551,20 +551,20 @@ static void allprint() {
 						fprintf(stderr, "*i%3ld", processes[i]->pages[j]);
 					else if (processes[i]->pages[j] == 0)
 						fprintf(stderr, "*=in ");
-					else if (processes[i]->pages[j] == -100)
+					else if (processes[i]->pages[j] == -PAGEWAIT)
 						fprintf(stderr, "*=out");
 					else
-						fprintf(stderr, "*o%3ld", 100 + processes[i]->pages[j]);
+						fprintf(stderr, "*o%3ld", PAGEWAIT + processes[i]->pages[j]);
 					// fprintf(stderr,"*%4d",processes[i]->pages[j]);
 				} else {
 					if (processes[i]->pages[j] > 0)
 						fprintf(stderr, " i%3ld", processes[i]->pages[j]);
 					else if (processes[i]->pages[j] == 0)
 						fprintf(stderr, " =in ");
-					else if (processes[i]->pages[j] == -100)
+					else if (processes[i]->pages[j] == -PAGEWAIT)
 						fprintf(stderr, " =out");
 					else
-						fprintf(stderr, " o%3ld", 100 + processes[i]->pages[j]);
+						fprintf(stderr, " o%3ld", PAGEWAIT + processes[i]->pages[j]);
 					// fprintf(stderr," %4d",processes[i]->pages[j]);
 				}
 			} else {
@@ -609,20 +609,20 @@ static void allprint() {
 						fprintf(stderr, "*i%3ld", processes[i]->pages[j]);
 					else if (processes[i]->pages[j] == 0)
 						fprintf(stderr, "*=in ");
-					else if (processes[i]->pages[j] == -100)
+					else if (processes[i]->pages[j] == -PAGEWAIT)
 						fprintf(stderr, "*=out");
 					else
-						fprintf(stderr, "*o%3ld", 100 + processes[i]->pages[j]);
+						fprintf(stderr, "*o%3ld", PAGEWAIT + processes[i]->pages[j]);
 					// fprintf(stderr,"*%4d",processes[i]->pages[j]);
 				} else {
 					if (processes[i]->pages[j] > 0)
 						fprintf(stderr, " i%3ld", processes[i]->pages[j]);
 					else if (processes[i]->pages[j] == 0)
 						fprintf(stderr, " =in ");
-					else if (processes[i]->pages[j] == -100)
+					else if (processes[i]->pages[j] == -PAGEWAIT)
 						fprintf(stderr, " =out");
 					else
-						fprintf(stderr, " o%3ld", 100 + processes[i]->pages[j]);
+						fprintf(stderr, " o%3ld", PAGEWAIT + processes[i]->pages[j]);
 					// fprintf(stderr," %4d",processes[i]->pages[j]);
 				}
 			} else {
