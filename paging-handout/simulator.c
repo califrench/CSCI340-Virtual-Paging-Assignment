@@ -551,7 +551,7 @@ static void allprint() {
 						fprintf(stderr, "*i%3ld", processes[i]->pages[j]);
 					else if (processes[i]->pages[j] == 0)
 						fprintf(stderr, "*=in ");
-					else if (processes[i]->pages[j] == -PAGEWAIT)
+					else if (processes[i]->pages[j] == -PAGEWAIT - 1)
 						fprintf(stderr, "*=out");
 					else
 						fprintf(stderr, "*o%3ld", PAGEWAIT + processes[i]->pages[j]);
@@ -561,7 +561,7 @@ static void allprint() {
 						fprintf(stderr, " i%3ld", processes[i]->pages[j]);
 					else if (processes[i]->pages[j] == 0)
 						fprintf(stderr, " =in ");
-					else if (processes[i]->pages[j] == -PAGEWAIT)
+					else if (processes[i]->pages[j] == -PAGEWAIT - 1)
 						fprintf(stderr, " =out");
 					else
 						fprintf(stderr, " o%3ld", PAGEWAIT + processes[i]->pages[j]);
@@ -609,7 +609,7 @@ static void allprint() {
 						fprintf(stderr, "*i%3ld", processes[i]->pages[j]);
 					else if (processes[i]->pages[j] == 0)
 						fprintf(stderr, "*=in ");
-					else if (processes[i]->pages[j] == -PAGEWAIT)
+					else if (processes[i]->pages[j] == -PAGEWAIT - 1)
 						fprintf(stderr, "*=out");
 					else
 						fprintf(stderr, "*o%3ld", PAGEWAIT + processes[i]->pages[j]);
@@ -619,7 +619,7 @@ static void allprint() {
 						fprintf(stderr, " i%3ld", processes[i]->pages[j]);
 					else if (processes[i]->pages[j] == 0)
 						fprintf(stderr, " =in ");
-					else if (processes[i]->pages[j] == -PAGEWAIT)
+					else if (processes[i]->pages[j] == -PAGEWAIT - 1)
 						fprintf(stderr, " =out");
 					else
 						fprintf(stderr, " o%3ld", PAGEWAIT + processes[i]->pages[j]);
