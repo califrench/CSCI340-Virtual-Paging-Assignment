@@ -24,13 +24,13 @@
 #define MAXPC (MAXPROCPAGES*PAGESIZE) /* largest PC value */ 
 
 struct pentry {
-    long active; 
-    long pc; 
-    long npages; 
-    long pages[MAXPROCPAGES]; /* 0 if not allocated, 1 if allocated */ 
+	long active;
+	long pc;
+	long npages;
+	long pages[MAXPROCPAGES]; /* 0 if not allocated, 1 if allocated */
 };
 
-typedef struct pentry Pentry; 
+typedef struct pentry Pentry;
 
 /* int pagein (int process, int page)
  *   This pages in the requested page
@@ -41,7 +41,7 @@ typedef struct pentry Pentry;
  *   1 if pagein started, already running, or paged in
  *   0 if it can't start (e.g., swapping out) 
  */
-extern int pagein (int process, int page); 
+extern int pagein(int process, int page);
 
 /* int pageout(int process, int page)
  *   This pages out the requested page.
@@ -52,7 +52,7 @@ extern int pagein (int process, int page);
  *   1 if pageout started, already running, or paged out
  *   0 if can't start (e.g., swapping in)
  */
-extern int pageout(int process, int page); 
+extern int pageout(int process, int page);
 
 /* void pageit(Pentry q[MAXPROCESSES])
  *   This is called by the simulator
@@ -63,4 +63,4 @@ extern int pageout(int process, int page);
  * Returns:
  *   void 
  */
-extern void pageit(Pentry q[MAXPROCESSES]); 
+extern void pageit(Pentry q[MAXPROCESSES]);
