@@ -156,9 +156,11 @@ A basic “one-process-at-a-time” implementation is provided for you. This imp
 
 To start, create some form of “Least Recently Used” (LRU) paging algorithm. An LRU algorithm selects a page that has not been accessed for some time when it must swap a page out to make room for a new page to be swapped in. An LRU algorithm can either operate globally, or with respect to a given process. In the latter case, you may wish to pre-reserve a number of physical pages for each process and only allow each process to compete for pages from this subset. An stub for implementing your LRU version of pageit() has been created for you in the pager-lru.c file. Note the use of static variables in order to preserve local state between calls to pageit(). Your LRU algorithm should perform much better than the trivial solution discussed above, but will still su↵er from performance issues. We can do better.
 
-![pageit flow chart](https://raw.githubusercontent.com/CSUChico-CSCI340/CSCI340-Virtual-Paging-Assignment/master/writeup/pageit-Fig1.png "Figure 2: Basic Reactive pageit() Flow Chart")
+![Reactive pageit flow chart](https://raw.githubusercontent.com/CSUChico-CSCI340/CSCI340-Virtual-Paging-Assignment/master/writeup/pageit-Fig1.png "Figure 2: Basic Reactive pageit() Flow Chart")
 
 To really do well on this assignment, you must create some form of predictive paging algorithm. A predictive algorithm attempts to predict what pages each process will require in the future and then swaps these pages in before they are needed. Thus, when these pages are needed, they are already swapped in and ready to go. The process need not block to wait for the required pages to be swapped in, greatly increasing performance. Figure 3 shows a modified version of the Figure 2 flowchart for a predictive implementation of pageit. As for the LRU implementation, a simple predictive stub has been created for you in the pager-predict.c file.
+
+![Predictive pageit flow chart](https://raw.githubusercontent.com/CSUChico-CSCI340/CSCI340-Virtual-Paging-Assignment/master/writeup/pageit-Fig2.png "Figure 3: Basic Predictive pageit() Flow Chart")
 
 ##Folders
 
