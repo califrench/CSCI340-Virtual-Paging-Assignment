@@ -12,13 +12,12 @@ Adopted from assignment
 By Andy Sayler - 2012  
 http://www.andysayler.com
 
-With help from:  
-Junho Ahn - 2012
-
 That was adopted from  
 assignment by Dr. Alva Couch  
 http://www.cs.tufts.edu/~couch/
 
+With help from:  
+Junho Ahn - 2012
 
 ##Assignment Introduction
 
