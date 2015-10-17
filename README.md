@@ -238,13 +238,13 @@ If your code generates warnings when building under gcc on the VM using -Wall an
 
 ## Resources
 Refer to your textbook and class notes of OS paging policies and implementations.
-	* If you require a good C language reference, consult K&R[3].
-	* The Internet[4] is also a good resource for finding information related to solving this
+* If you require a good C language reference, consult K&R[3].
+* The Internet[4] is also a good resource for finding information related to solving this
 assignment.
-	* You may wish to consult the man pages for the following items, as they will be useful
+* You may wish to consult the man pages for the following items, as they will be useful
 and/or required to complete this assignment. Note that the first argument to the “man” command is the chapter, insuring that you access the appropriate version of each man page.
-	* See man man for more information.
-		* man 1 make
+* See man man for more information.
+	* man 1 make
 
 ## Bash Examples
 
