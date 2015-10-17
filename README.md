@@ -77,7 +77,7 @@ Figure 1 shows the possible states that a virtual page can occupy, as well as th
 The simulator populates its 20 processes by randomly selecting processes from a collection of 5 simulated “programs”. Pseudo code for each of the possible 5 programs is provided in Listings 1 through 5.
 
 <pre>
-	<code  linenumbers="normal">
+	<code class="prettyprint linenums">
 	# loop with inner branch
 		for 10 30 run 500
 			if.4
