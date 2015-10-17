@@ -22,15 +22,15 @@ Junho Ahn - 2012
 
 ##Assignment Introduction
 
-All modern operating systems use virtual memory and paging in order to e↵ectively utilize the computer’s memory hierarchy. Paging is an e↵ective means of providing memory space protection to processes, of enabling the system to utilize secondary storage for additional memory space, and of avoiding the need to allocate memory sequentially for each process.
+All modern operating systems use virtual memory and paging in order to effectively utilize the computer’s memory hierarchy. Paging is an effective means of providing memory space protection to processes, of enabling the system to utilize secondary storage for additional memory space, and of avoiding the need to allocate memory sequentially for each process.
 
-We have studied how virtual memory systems are structured and how the MMU converts virtual memory addresses to physical memory addresses by means of a page table and a translation lookaside bu↵er (TLB). When a page has a valid mapping from VM address to physical address, we say the page is “swapped in”. When no valid mapping is available, the page is either invalid (a segmentation fault), or more likely, “swapped out”. When the MMU determines that a memory request requires access to a page that is currently swapped out, it calls the operating system’s page-fault handler. This handler must swap-in the necessary page, possibly evicting another page to secondary memory in the process. It then retries the o↵ending memory access and hands control back to the MMU.
+We have studied how virtual memory systems are structured and how the MMU converts virtual memory addresses to physical memory addresses by means of a page table and a translation lookaside buffer (TLB). When a page has a valid mapping from VM address to physical address, we say the page is “swapped in”. When no valid mapping is available, the page is either invalid (a segmentation fault), or more likely, “swapped out”. When the MMU determines that a memory request requires access to a page that is currently swapped out, it calls the operating system’s page-fault handler. This handler must swap-in the necessary page, possibly evicting another page to secondary memory in the process. It then retries the offending memory access and hands control back to the MMU.
 
-As you might imagine, how the OS chooses which page to evict when it has reached the limit of available physical pages (sometime called frames) can have a major e↵ect on the performance of the memory access on a given system. In this assignment, we will look at various strategies for managing the system page table and controlling when pages are paged in and when they are paged out.
+As you might imagine, how the OS chooses which page to evict when it has reached the limit of available physical pages (sometime called frames) can have a major effect on the performance of the memory access on a given system. In this assignment, we will look at various strategies for managing the system page table and controlling when pages are paged in and when they are paged out.
 
 ##Your Task
 
-The goal of this assignment is to implement a paging strategy that maximizes the perfor- mance of the memory access in a set of predefined programs. You will accomplish this task by using a paging simulator that has already been created for you. Your job is to write the paging strategy that the simulator utilizes (roughly equivalent to the role the page fault handler plays in a real OS). Your initial goal will be to create a Least Recently Used paging implementation. You will then need to implement some form of predictive page algorithm to increase the performance of your solution. You will be graded on the throughput of your solution (the ratio of time spent doing useful work vs time spent waiting on the necessary paging to occur).
+The goal of this assignment is to implement a paging strategy that maximizes the performance of the memory access in a set of predefined programs. You will accomplish this task by using a paging simulator that has already been created for you. Your job is to write the paging strategy that the simulator utilizes (roughly equivalent to the role the page fault handler plays in a real OS). Your initial goal will be to create a Least Recently Used paging implementation. You will then need to implement some form of predictive page algorithm to increase the performance of your solution. You will be graded on the throughput of your solution (the ratio of time spent doing useful work vs time spent waiting on the necessary paging to occur).
 
 ###2.1 The Simulator Environment
 The simulator has been provided for you. You have access to the source code if you wish to review it (simulator.c and simulator.h), but you should not need to modify this code for the sake of this assignment. You will be graded using the stock simulator, so any enhancements to the simulator program made with the intention of improving your performance will be for naught.
@@ -70,14 +70,33 @@ The simulator also exports a function called pagein and a function called pageou
 
 ![Simulator Page State](https://raw.githubusercontent.com/CSUChico-CSCI340/CSCI340-Virtual-Paging-Assignment/master/writeup/simulator-PageState.png "Figure 1: Simulator Page State")
 
-Figure 1 shows the possible states that a virtual page can occupy, as well as the possible transitions between these states. Note that the page map values alone do not define all
+Figure 1 shows the possible states that a virtual page can occupy, as well as the possible transitions between these states. Note that the page map values alone do not define all possible page states. We must also account for the possible operations currently underway on a page to fully define its state. While the page map for each process can be obtained from the pageit input array of structs, there is no interface to directly reveal any operations underway on a given page. If knowing whether or not a paging operation is underway on a given page (and thus knowing the full state of a page) is necessary for your pageit implementation, you must maintain this data yourself.
 
-Folders
-=================================
+###2.3 The Simulated Programs
+
+The simulator populates its 20 processes by randomly selecting processes from a collection of 5 simulated “programs”. Pseudo code for each of the possible 5 programs is provided in Listings 1 through 5.
+
+<code  linenumbers="normal">
+# loop with inner branch
+	for 10 30 run 500
+		if.4
+			run 900
+		else
+			run 131
+		endif
+	end
+	exit
+endprog
+</code>
+####Listing 1: Test Program 1 - A loop with an inner branch
+
+##Folders
+
 -  handout - Assignment description and documentation
+-  writeup - Images for write up README.md file
 
-Files
-=================================
+##Files
+
 -  Makefile - GNU makefile to build all relevant code
 -  pager-basic.c - Basic paging strategy implementation that runs one process at a time.  
 -  pager-lru.c - LRU paging strategy implementation (you code this).
@@ -88,13 +107,12 @@ Files
 -  programs.c - Defines test "programs" for simulator to run
 -  pgm*.pseudo - Pseudo code of test programs from which programs.c was generated.
 
-Executables
-=================================
+##Executables
 -  test-* - Runs simulator using "programs" defined in programs.c and paging strategy defined in pager-*.c. Includes various run-time options. Run with '-help' for details.
 -  test-api - Runs a test of the simulator state changes
 
-Examples
-=================================
+## Bash Examples
+
 Build:
 ```bash
 $ make
