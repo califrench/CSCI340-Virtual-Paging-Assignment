@@ -1,3 +1,6 @@
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js">    
+</script>
+
 CSCI340 Virtual Paging Assignment
 ==================================
 
