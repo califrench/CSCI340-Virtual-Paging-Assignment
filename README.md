@@ -19,6 +19,59 @@ http://www.cs.tufts.edu/~couch/
 With help from:  
 Junho Ahn - 2012
 
+
+##Assignment Introduction
+
+All modern operating systems use virtual memory and paging in order to e↵ectively utilize the computer’s memory hierarchy. Paging is an e↵ective means of providing memory space protection to processes, of enabling the system to utilize secondary storage for additional memory space, and of avoiding the need to allocate memory sequentially for each process.
+
+We have studied how virtual memory systems are structured and how the MMU converts virtual memory addresses to physical memory addresses by means of a page table and a translation lookaside bu↵er (TLB). When a page has a valid mapping from VM address to physical address, we say the page is “swapped in”. When no valid mapping is available, the page is either invalid (a segmentation fault), or more likely, “swapped out”. When the MMU determines that a memory request requires access to a page that is currently swapped out, it calls the operating system’s page-fault handler. This handler must swap-in the necessary page, possibly evicting another page to secondary memory in the process. It then retries the o↵ending memory access and hands control back to the MMU.
+
+As you might imagine, how the OS chooses which page to evict when it has reached the limit of available physical pages (sometime called frames) can have a major e↵ect on the performance of the memory access on a given system. In this assignment, we will look at various strategies for managing the system page table and controlling when pages are paged in and when they are paged out.
+
+##Your Task
+
+The goal of this assignment is to implement a paging strategy that maximizes the perfor- mance of the memory access in a set of predefined programs. You will accomplish this task by using a paging simulator that has already been created for you. Your job is to write the paging strategy that the simulator utilizes (roughly equivalent to the role the page fault handler plays in a real OS). Your initial goal will be to create a Least Recently Used paging implementation. You will then need to implement some form of predictive page algorithm to increase the performance of your solution. You will be graded on the throughput of your solution (the ratio of time spent doing useful work vs time spent waiting on the necessary paging to occur).
+
+###2.1 The Simulator Environment
+The simulator has been provided for you. You have access to the source code if you wish to review it (simulator.c and simulator.h), but you should not need to modify this code for the sake of this assignment. You will be graded using the stock simulator, so any enhancements to the simulator program made with the intention of improving your performance will be for naught.
+
+The simulator runs a random set of programs utilizing a limited number of shared physical pages. Each process has a fixed number of virtual pages, the process’s virtual memory space, that it might try to access. For the purpose of this simulation, all memory access is due to the need to load program code. Thus, the simulated program counter (PC) for each process dictates which memory location that process currently requires access to, and thus which virtual page must be swapped-in for the process to successfully continue.
+
+The values of the constants mentioned above are available in the simulator.h file. For the purposes of grading your assignment, the default values will be used:
+* 20 virtual pages per process (MAXPROCPAGES)
+* 100 physical pages (frames) total (PHYSICALPAGES)
+* 20 simultaneous processes competing for pages (MAXPROCESSES) • 128 memory unit page size (PAGESIZE)
+* 100 tick delay to swap a page in or out (PAGEWAIT)
+
+As you can see, you are working in a very resource constrained environment. You will have to deal with attempts to access up to 400 virtual pages (20 processes times 20 virtual pages per process), but may only have, at most, 100 physical pages swapped in at any given time.
+
+In addition, swapping a page in or out is an expensive operation, requiring 100 ticks to complete. A tick is the minimum time measurement unit in the simulator. Each instruction or step in the simulated programs requires 1 tick to complete. Thus, in the worst case where every instruction is a page miss (requiring a swap-in), you will spend 100 ticks of paging overhead for every 1 tick of useful work. If all physical pages are in use, this turns into 200 ticks per page miss since you must also spend 100 ticks swapping a page out in order to make room for the required page to be swapped in. This leads to an “overhead to useful work” ratio of 200 to 1: very, very, poor performance. Your goal is to implement a system that does much better than this worst case scenario.
+
+###2.2 The Simulator Interface
+
+The simulator exports three functions through which you will interact with it. The first function is called pageit. This is the core paging function. It is roughly equivalent to the page-fault handler in your operating system. The simulator calls pageit anytime something interesting happens (memory access, page fault, process completion, etc). It passes the function a page map for each process, as well as the current value of the program counter for each process. See simulator.h for details. You will implement your paging strategy in the body of this function.
+
+The pageit function is passed an array of pentry structs, one per process. This struct contains a copy of all of the necessary memory information that the simulator maintains for each process. You will need the information contained in this struct to make intelligent paging decisions. It is the simulator’s job to maintain this information. You should just read it as necessary. The struct contains:
+
+* long active
+	- A flag indicating whether or not the process has completed. 1 if running, 0 if exited.
+* long pc
+	- The value of the program counter for the process. The current page can be calculated
+as page = pc/PAGESIZE.
+* long npages
+	- The number of pages in the processes memory space. If the process is active (running),
+this will be equal to MAXPROCPAGES. If the process has exited, this will be 0.
+* long pages[MAXPROCPAGES]
+	- A bitmap array representing the page map for a given process. If pages[X] is 0, page X is swapped out, swapping out, or swapping in. If pages[X] is 1, page X is currently swapped in.
+
+The simulator also exports a function called pagein and a function called pageout. These functions request that a specific page for a specific process be swapped in or swapped out, respectively. You will use these function to control the allocation of virtual and physical pages when writing your paging strategy. Each of these functions returns 1 if they succeed in starting a paging operation, if the requested paging operation is already in progress, or if the requested state already exists. 100 ticks after requesting a paging operation, the operation will complete. When calling pagein, the page maps passed to pageit will reflect the new state of the simulator after the request completes 100 ticks later. When calling pageout, the page maps passed to pageit will reflect the new state of the simulator in the first call to pageit after the request is made. In short, a page is recognized as swapped out as soon as a pageout request is made, but is not recognized as swapped in until after a pagein request completes. These functions return 0 if the paging request can not be processed (due to exceeding the limit of physical pages or because another paging operation is currently in process on the requested page) or if the request is invalid (paging operation requests non- existent page, etc). See Figure 1 for more details on the behavior of pagein and pageout.
+
+
+
+![Simulator Page State](https://raw.githubusercontent.com/CSUChico-CSCI340/CSCI340-Virtual-Paging-Assignment/master/writeup/simulator-PageState.png "Figure 1: Simulator Page State")
+
+Figure 1 shows the possible states that a virtual page can occupy, as well as the possible transitions between these states. Note that the page map values alone do not define all
+
 Folders
 =================================
 -  handout - Assignment description and documentation
