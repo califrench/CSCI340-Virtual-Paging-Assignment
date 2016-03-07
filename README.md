@@ -39,7 +39,8 @@ The simulator runs a random set of programs utilizing a limited number of shared
 The values of the constants mentioned above are available in the simulator.h file. For the purposes of grading your assignment, the default values will be used:
 * 20 virtual pages per process (MAXPROCPAGES)
 * 100 physical pages (frames) total (PHYSICALPAGES)
-* 20 simultaneous processes competing for pages (MAXPROCESSES) • 128 memory unit page size (PAGESIZE)
+* 20 simultaneous processes competing for pages (MAXPROCESSES) 
+* 128 memory unit page size (PAGESIZE)
 * 100 tick delay to swap a page in or out (PAGEWAIT)
 
 As you can see, you are working in a very resource constrained environment. You will have to deal with attempts to access up to 400 virtual pages (20 processes times 20 virtual pages per process), but may only have, at most, 100 physical pages swapped in at any given time.
