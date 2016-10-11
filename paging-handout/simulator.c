@@ -46,6 +46,8 @@ static long procs = MAXPROCESSES;
 #include <stdarg.h> 
 #include <sys/types.h>
 
+void assert(int boolean, char *boolstr, char *file, int line);
+
 // shorthands for assertion handling
 #define CHECK(bool)   check((bool),#bool,__FILE__,__LINE__)
 #define ASSERT(bool)  assert((bool),#bool,__FILE__,__LINE__)
