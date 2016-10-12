@@ -78,7 +78,8 @@ The simulator populates its 20 processes by randomly selecting processes from a 
 
 ```
 # loop with inner branch
-	for 10 30 run 500
+	for 10 30 
+		run 500
 		if.4
 			run 900
 		else
