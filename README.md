@@ -230,7 +230,7 @@ archived tar package to me via email in addition to submitting code to Turnin. T
 * 0.005 <= score < 0.01 : 100 Points + 5 Points EC
 * score < 0.005 : 100 Points + 10 Points EC (Excellent predictive implementation)
 
-During grading, we will run your code using several random seeds and will take the average of these runs as your score. Thus, if your program’s performance varies widely from run-to-run, you may get bitten during grading. In the words of Clint Eastwood, “Do I feel lucky?”.
+During grading, we will run your code using several random seeds and will take the average of these runs as your score. Thus, if your program’s performance varies widely from run-to-run, you may get bitten during grading. In the words of Client Eastwood, “Do I feel lucky?”.
 
 If your code generates warnings when building under gcc on the VM using -Wall and -Wextra you will be penalized 1 point per warning. In addition, to receive full credit your submission must:
 * Meet all requirements elicited in this document
