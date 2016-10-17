@@ -64,7 +64,7 @@ this will be equal to MAXPROCPAGES. If the process has exited, this will be 0.
 * long pages[MAXPROCPAGES]
 	- A bitmap array representing the page map for a given process. If pages[X] is 0, page X is swapped out, swapping out, or swapping in. If pages[X] is 1, page X is currently swapped in.
 
-The simulator also exports a function called pagein and a function called pageout. These functions request that a specific page for a specific process be swapped in or swapped out, respectively. You will use these function to control the allocation of virtual and physical pages when writing your paging strategy. Each of these functions returns 1 if they succeed in starting a paging operation, if the requested paging operation is already in progress, or if the requested state already exists. 100 ticks after requesting a paging operation, the operation will complete. When calling pagein, the page maps passed to pageit will reflect the new state of the simulator after the request completes 100 ticks later. When calling pageout, the page maps passed to pageit will reflect the new state of the simulator in the first call to pageit after the request is made. In short, a page is recognized as swapped out as soon as a pageout request is made, but is not recognized as swapped in until after a pagein request completes. These functions return 0 if the paging request can not be processed (due to exceeding the limit of physical pages or because another paging operation is currently in process on the requested page) or if the request is invalid (paging operation requests non- existent page, etc). See Figure 1 for more details on the behavior of pagein and pageout.
+The simulator also exports a function called pagein and a function called pageout. These functions request that a specific page for a specific process be swapped in or swapped out, respectively. You will use these functions to control the allocation of virtual and physical pages when writing your paging strategy. Each of these functions returns 1 if they succeed in starting a paging operation, if the requested paging operation is already in progress, or if the requested state already exists. 100 ticks after requesting a paging operation, the operation will complete. When calling pagein, the page maps passed to pageit will reflect the new state of the simulator after the request completes 100 ticks later. When calling pageout, the page maps passed to pageit will reflect the new state of the simulator in the first call to pageit after the request is made. In short, a page is recognized as swapped out as soon as a pageout request is made, but is not recognized as swapped in until after a pagein request completes. These functions return 0 if the paging request can not be processed (due to exceeding the limit of physical pages or because another paging operation is currently in process on the requested page) or if the request is invalid (paging operation requests non- existent page, etc). See Figure 1 for more details on the behavior of pagein and pageout.
 
 
 
@@ -167,7 +167,7 @@ There are effectively two approaches to predictive algorithms. The first approac
 
 The second approach to predictive algorithms is to ignore the knowledge you have been given regarding the various program types. Instead, you might track each process’s program counter to try to detect various common patterns (loops, jumps to specific locations, etc). If you detect a pattern, you assume that the pattern will continue to repeat and attempt to swap in the necessary pages touched during the execution of the pattern before the process needs them. Working set algorithms are a subset of this approach.
 
-Note that in any predictive operation, you ideally wish to stay 100-200 ticks ahead of the execution of each process. This is the necessary predictive lead time in which you must make paging decisions in order to insure that the necessary pages are available when the process reaches them and that no blocking time is required. As Figure 3 shows, in addition to swapping in pages predicatively, you must still handle the case where your prediction has failed and are thus forced to reactively swap in the necessary page. This is referred to as a predictive miss. A good predictive algorithm will minimize misses, but still must handle them when they occur. In other words, you can not assume that your predictions will always works and that every currently needed page is already available. Doing so will most likely lead to deadlock.
+Note that in any predictive operation, you ideally wish to stay 100-200 ticks ahead of the execution of each process. This is the necessary predictive lead time in which you must make paging decisions in order to insure that the necessary pages are available when the process reaches them and that no blocking time is required. As Figure 3 shows, in addition to swapping in pages predicatively, you must still handle the case where your prediction has failed and are thus forced to reactively swap in the necessary page. This is referred to as a predictive miss. A good predictive algorithm will minimize misses, but still must handle them when they occur. In other words, you can not assume that your predictions will always work and that every currently needed page is already available. Doing so will most likely lead to deadlock.
 
 There are a number of additional predictive notions that might prove useful involving state-space analysis [5], Markov chains [6], and similar techniques. We will leave such solutions to the student to investigate if she wishes. Please see the references section for additional information and ideas.
 
@@ -230,7 +230,7 @@ archived tar package to me via email in addition to submitting code to Turnin. T
 * 0.005 <= score < 0.01 : 100 Points + 5 Points EC
 * score < 0.005 : 100 Points + 10 Points EC (Excellent predictive implementation)
 
-During grading, we will run your code using several random seeds and will take the average of these runs as your score. Thus, if your program’s performance varies widely from run-to-run, you may get bitten during grading. In the words of Client Eastwood, “Do I feel lucky?”.
+During grading, we will run your code using several random seeds and will take the average of these runs as your score. Thus, if your program’s performance varies widely from run-to-run, you may get bitten during grading. In the words of Clint Eastwood, “Do I feel lucky?”.
 
 If your code generates warnings when building under gcc on the VM using -Wall and -Wextra you will be penalized 1 point per warning. In addition, to receive full credit your submission must:
 * Meet all requirements elicited in this document
@@ -240,10 +240,10 @@ If your code generates warnings when building under gcc on the VM using -Wall an
 ## Resources
 Refer to your textbook and class notes of OS paging policies and implementations.
 * If you require a good C language reference, consult K&R[3].
-* The Internet[4] is also a good resource for finding information related to solving this
+* The internet[4] is also a good resource for finding information related to solving this
 assignment.
 * You may wish to consult the man pages for the following items, as they will be useful
-and/or required to complete this assignment. Note that the first argument to the “man” command is the chapter, insuring that you access the appropriate version of each man page.
+and/or required to complete this assignment. Note that the first argument to the “man” command is the chapter, ensuring that you access the appropriate version of each man page.
 * See man man for more information.
 	* man 1 make
 
