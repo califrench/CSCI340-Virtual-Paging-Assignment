@@ -1,6 +1,6 @@
 # one loop 
-  for 20 50
-      run 1129
+  for 20 50         0       0
+      run 1129      1129    8
   end
   exit 
 endprog

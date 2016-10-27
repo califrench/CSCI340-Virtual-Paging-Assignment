@@ -1,9 +1,9 @@
 # doubly-nested loop 
-  for 10 20 
-      run 1166
-      for 10 20 
-          run 516
-       end
+  for 10 20             0           0
+      run 1166          
+      for 10 20         1166        9
+          run 516       
+       end              1682        13
   end
   exit
 endprog

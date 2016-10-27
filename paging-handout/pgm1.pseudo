@@ -1,11 +1,11 @@
 # loop with inner branch
-  for 10 30 
-      run 500
-      if .4
+  for 10 30                 0           0
+      run 500               
+      if .4                 500         3
           run 900 
-      else
+      else                  1401        10
           run 131
-      endif
+      endif                 1533        11
   end
   exit
 endprog

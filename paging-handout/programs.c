@@ -13,7 +13,58 @@
  * 	This file defines the programs run by the simulator
  */
 
+/*
+#define PROGRAMS 1
+static Program programs[PROGRAMS] = {
+    { 1535, 3,
+      {
+      {500, 1402, IF, 0, 0, 0.6, 0 },
+      {1401, 1533, GOTO, 0, 0, 1, 0 },
+      {1533, 0, FOR, 2, 2, 0, 0 },
+      },
+      1, { 1534, }
+    },
+};
 
+static Program programs[PROGRAMS] = {
+    { 1131, 1,
+      {
+      {1129, 0, FOR, 2, 2, 0, 0 },
+      },
+      1, { 1130, }
+    },
+};
+
+static Program programs[PROGRAMS] = {
+    { 1685, 2,
+      {
+      {1682, 1166, FOR, 2, 2, 0, 0 },
+      {1683, 0, FOR, 2, 2, 0, 0 },
+      },
+      1, { 1684, }
+    },
+};
+
+static Program programs[PROGRAMS] = {
+    { 1912, 0,
+      {
+      },
+      1, { 1911, }
+    },
+};
+
+static Program programs[PROGRAMS] = {
+    { 505, 4,
+      {
+      {500, 503, IF, 0, 0, 0.5, 0 },
+      {501, 0, GOTO, 0, 0, 1, 0 },
+      {502, 503, GOTO, 0, 0, 1, 0 },
+      {503, 0, FOR, 2, 2, 0, 0 },
+      },
+      1, { 504, }
+    },
+};
+*/
 #define PROGRAMS 5
 static Program programs[PROGRAMS] = {
     { 1535, 3,

@@ -15,11 +15,11 @@
 
 #include <stdio.h> 
 #include <stdlib.h>
+#include <limits.h>
 
 #include "simulator.h"
 
 void pageit(Pentry q[MAXPROCESSES]) {
-
 	/* This file contains the stub for an LRU pager */
 	/* You may need to add/remove/modify any part of this file */
 
@@ -29,22 +29,50 @@ void pageit(Pentry q[MAXPROCESSES]) {
 	static int timestamps[MAXPROCESSES][MAXPROCPAGES];
 
 	/* Local vars */
-	int proctmp;
-	int pagetmp;
+	int proc;
+	int pc;
+	int page;
+	int oldpage;
 
 	/* initialize static vars on first run */
 	if (!initialized) {
-		for (proctmp = 0; proctmp < MAXPROCESSES; proctmp++) {
-			for (pagetmp = 0; pagetmp < MAXPROCPAGES; pagetmp++) {
-				timestamps[proctmp][pagetmp] = 0;
+		for (proc = 0; proc < MAXPROCESSES; proc++) {
+			for (page = 0; page < MAXPROCPAGES; page++) {
+				timestamps[proc][page] = 0;
 			}
 		}
 		initialized = 1;
 	}
 
-	/* TODO: Implement LRU Paging */
-	fprintf(stderr, "pager-lru not yet implemented. Exiting...\n");
-	exit(EXIT_FAILURE);
+	/* Trivial paging strategy (aka piece of crap)*/
+	/* Select first active process */
+	for (proc = 0; proc < MAXPROCESSES; proc++) {
+		/* Is process active? */
+		if (q[proc].active) {
+			/* Dedicate all work to first active process*/
+			pc = q[proc].pc; 		        // program counter for process
+			page = pc / PAGESIZE; 		// page the program counter needs
+			/* Is page swaped-out? */
+			if (!q[proc].pages[page]) {
+				/* Try to swap in */
+				if (!pagein(proc, page)) {
+					/* If swapping fails, swap out least recently used page */
+					int leastRecent = INT_MAX;
+					int oldestPage = -1;
+					for (oldpage = 0; oldpage < q[proc].npages; oldpage++) {
+						/* If the page is another page, if it's older than current and if it's actually paged in */
+						if (oldpage != page && timestamps[proc][oldpage] < leastRecent && q[proc].pages[oldpage]) {
+							leastRecent = timestamps[proc][oldpage];
+							oldestPage = oldpage;
+						}
+					}
+					pageout(proc, oldestPage);
+				} else {
+					timestamps[proc][page] = tick;
+				}
+			}
+		}
+	}
 
 	/* advance time for next pageit iteration */
 	tick++;
